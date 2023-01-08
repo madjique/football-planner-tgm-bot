@@ -3,11 +3,19 @@ require_relative '../model/Player'
 
 class GameController
     attr_reader :game
-  
+
     def initialize()
-        @game = Game.instance
+        @game = Game.new()
     end
+
+    # Singleton
+    @instance = new
+    private_class_method :new
     
+    def self.instance
+        @instance 
+    end
+
     # Commands
 
     def startgame

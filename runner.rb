@@ -2,7 +2,8 @@ require 'telegram_bot'
 require 'logger'
 require 'require_all'
 
-require_all 'commands/'
+require_relative 'invoker'
+
 require_all 'controllers/'
 
 # Init logger
@@ -13,8 +14,8 @@ token = ENV['FMP_BOT_TOKEN']
 bot = TelegramBot.new(token: token)
 
 # Default inits
-gamectl = GameController.new
-gamectl.startgame
+gamectl = GameController.instance
+invoker = CommandInvoker.instance
 
 # Main Loop
 
@@ -36,17 +37,17 @@ bot.get_updates(fail_silently: true) do |message|
         begin
             case command
             when /hello/i
-                Command::HelloCommand.new(ctx).run
+                invoker.hello(ctx)
             when /log/i
-                Command::AdminLogCommand.new(ctx).run
+                invoker.log(ctx)
             when /beginmatch/i
-                Command::BeginMatchCommand.new(ctx).run
+                invoker.begin_match(ctx)
             when /showlist/i
-                Command::ShowListCommand.new(ctx).run
+                invoker.show_list(ctx)
             when /addme/i
-                Command::AddPlayerToGameCommand.new(ctx).run
+                invoker.add_player_to_game(ctx)
             when /cancelme/i
-                Command::CancelPlayerFromGameCommand.new(ctx).run
+                invoker.cancel_player_from_game(ctx)
             else 
                 replying = false
             end  
