@@ -41,7 +41,10 @@ class GameController
     
     def get_players
         game.players
-        []
+    end
+
+    def get_list
+        game.players.map { | player | player.to_s} .join("\n")
     end
 
     def get_waiting_list_players

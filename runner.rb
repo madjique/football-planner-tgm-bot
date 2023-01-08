@@ -22,7 +22,6 @@ bot.get_updates(fail_silently: true) do |message|
                 reply.text = "This is a starting"
             when /hello/i
                 reply.text = "Hello ⚽"
-                logger.info(players.inspect)
             when /admin/i
                 reply.text = "admin"
                 logger.info(gamectl.inspect)
@@ -33,6 +32,10 @@ bot.get_updates(fail_silently: true) do |message|
                 logger.info(gamectl.inspect)
                 logger.info(gamectl.get_game.inspect)
                 reply.text = "Game initilialized ⚽"
+            when /showlist/i
+                reply.text = "admin"
+                logger.info(gamectl.get_list)
+                reply.text = gamectl.get_list
             when /addme/i
                 player = Player.new("#{message.from.first_name} #{message.from.last_name}")
                 logger.info(gamectl.inspect)
@@ -42,7 +45,7 @@ bot.get_updates(fail_silently: true) do |message|
                     gamectl.add_player(player)
                     reply.text = "#{player.fullname} added to the match ✅ ⚽"
                 end
-                logger.info(players.inspect)
+                logger.info(player.inspect)
             else 
                 replying = false
             end      

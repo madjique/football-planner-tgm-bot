@@ -8,6 +8,10 @@ class Player
         @fullname = name
         @@players << self
     end
+    
+    def to_s
+        fullname
+    end
 
     def get_fullname
         fullname
