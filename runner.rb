@@ -9,6 +9,12 @@ token = ENV['FMP_BOT_TOKEN']
 bot = TelegramBot.new(token: token)
 gamectl = GameController.new
 
+# Default inits
+
+gamectl.startgame
+
+# Main Loop
+
 bot.get_updates(fail_silently: true) do |message|
     puts "@#{message.from.username}: #{message.text}"
     command = message.get_command_for(bot)
@@ -34,18 +40,34 @@ bot.get_updates(fail_silently: true) do |message|
                 reply.text = "Game initilialized ⚽"
             when /showlist/i
                 reply.text = "admin"
-                logger.info(gamectl.get_list)
-                reply.text = gamectl.get_list
+                logger.info(gamectl.get_main_list)
+
+                reply.text = "\n Liste des titulaires ***** \n"
+                reply.text += gamectl.get_main_list
+                reply.text += "\n Liste d'attente **********\n"
+                reply.text += gamectl.get_waiting_list
             when /addme/i
-                player = Player.new("#{message.from.first_name} #{message.from.last_name}")
-                logger.info(gamectl.inspect)
-                if gamectl.get_players&.include?(player)
-                    reply.text = "#{player.fullname} already in match list! ❌"
+                new_player_fullname = "#{message.from.first_name} #{message.from.last_name}"
+                if gamectl.in_list_or_waiting_list?(new_player_fullname)
+                    logger.info(gamectl.inspect)
+                    reply.text = "#{new_player_fullname} already in game list! ❌"
                 else
+                    player = Player.new(new_player_fullname)
                     gamectl.add_player(player)
-                    reply.text = "#{player.fullname} added to the match ✅ ⚽"
+                    reply.text = "#{player.fullname} added to the game ✅ ⚽"
+                    logger.info(player.inspect)
                 end
-                logger.info(player.inspect)
+            when /cancelme/i
+                player_fullname = "#{message.from.first_name} #{message.from.last_name}"
+                if gamectl.in_list_or_waiting_list?(player_fullname)
+                    player = gamectl.get_player_by_fullname(player_fullname)
+                    gamectl.cancel_player(player)
+                    logger.info(gamectl.inspect)
+                    reply.text = "#{player_fullname} canceled sucessfully ! ✅"
+                else
+                    reply.text = "#{player_fullname} in not in the game list! ❌"
+                    logger.info(player.inspect)
+                end
             else 
                 replying = false
             end      

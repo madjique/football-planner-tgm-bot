@@ -33,6 +33,25 @@ class GameController
         end
     end
 
+    def get_main_list
+        game.players.map { | player | player.to_s} .join("\n")
+    end
+
+    def get_waiting_list
+        game.waiting_list.map { | player | player.to_s} .join("\n")
+    end
+
+    def cancel_player(player)
+        if game.waiting_list.include?(player)
+            game.waiting_list.delete(player) #reject! {|elt| elt.to_s == player.to_s}
+        else
+            game.players.delete(player)
+            if game.waiting_list.size > 0
+                game.players << game.waiting_list.shift
+            end
+        end
+    end
+
     # Getters
 
     def get_game()
@@ -43,11 +62,21 @@ class GameController
         game.players
     end
 
-    def get_list
-        game.players.map { | player | player.to_s} .join("\n")
-    end
-
     def get_waiting_list_players
         game.waiting_list
+    end
+
+    def get_lists
+        game.players + game.waiting_list
+    end
+
+    def get_player_by_fullname(fullname)
+        get_lists.find { |player| player.to_s == fullname}
+    end
+
+    # Check functions
+
+    def in_list_or_waiting_list?(fullname = '')
+        get_lists.map { |player| player.to_s } .include?(fullname)
     end
 end
