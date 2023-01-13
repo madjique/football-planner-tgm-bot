@@ -42,11 +42,19 @@ class GameController
     end
 
     def get_main_list
-        game.players.map { | player | player.to_s} .join("\n")
+        game.players.map { | player | "#{game.players.index(player)+1} - #{player.get_fullname}"} .join("\n")
     end
 
     def get_waiting_list
         game.waiting_list.map { | player | player.to_s} .join("\n")
+    end
+
+    def get_game_info
+        {
+            day: game.get_day,
+            time: game.get_time,
+            location: game.get_location 
+        }
     end
 
     def cancel_player(player)
@@ -55,9 +63,16 @@ class GameController
         else
             game.players.delete(player)
             if game.waiting_list.size > 0
-                game.players << game.waiting_list.shift
+                transfered_player << game.waiting_list.shift
+                game.players << transfered_player
+
+                waiting_player_confirmation(transfered_player)
             end
         end
+    end
+
+    def waiting_player_confirmation(player)
+        nil
     end
 
     # Getters
@@ -84,7 +99,7 @@ class GameController
 
     # Check functions
 
-    def in_list_or_waiting_list?(fullname = '')
-        get_lists.map { |player| player.to_s } .include?(fullname)
+    def in_list_or_waiting_list?(username = '')
+        get_lists.map { |player| player.to_s } .include?(username)
     end
 end
