@@ -97,6 +97,10 @@ class GameController
         get_lists.find { |player| player.to_s == fullname}
     end
 
+    def get_player_from_lists(username)
+        get_lists.find { |player| player.to_s == username}
+    end
+
     # Check functions
 
     def in_list_or_waiting_list?(username = '')
