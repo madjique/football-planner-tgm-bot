@@ -73,4 +73,13 @@ class CommandInvoker
         end
         commands["cancel_player_from_game"].run
     end
+
+    def show_all_players(ctx)
+        if commands.key?("show_all_players")
+            commands["show_all_players"].reload_context(ctx)
+        else
+            commands["show_all_players"] = Command::ShowAllPlayersCommand.new(ctx)
+        end
+        commands["show_all_players"].run
+    end
 end

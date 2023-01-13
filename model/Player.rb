@@ -25,4 +25,14 @@ class Player
     def self.all
         @@players
     end
+
+    def self.get_player(fullname,username)
+        player = existing_player(username)
+        return player if player
+        return new(fullname,username)
+    end
+
+    def existing_player(username)
+        players.find { |player| player.to_s == username }
+    end
 end
