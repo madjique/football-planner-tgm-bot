@@ -1,12 +1,13 @@
 class Command
     class Base
-        attr_reader :gamectl, :message, :reply, :logger
+        attr_reader :gamectl, :message, :reply, :logger, :playerctl
         
         def initialize(ctx)
             @gamectl = ctx[:gamectl]
             @message = ctx[:message]
             @reply = ctx[:reply]
             @logger = ctx[:logger]
+            @playerctl = ctx[:playerctl]
         end
 
         def reload_context(ctx)

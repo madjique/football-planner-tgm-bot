@@ -9,7 +9,7 @@ class Command
                 log_info(gamectl.inspect)
                 respond("#{new_player_fullname} est déja dans la liste! ❌")
             else
-                player = Player.new(new_player_fullname,new_player_username)
+                player = playerctl.get_player(new_player_fullname,new_player_username)
                 gamectl.add_player(player)
 
                 respond("#{player.fullname} rajouté a la liste avec succes ✅ ⚽")

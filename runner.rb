@@ -15,6 +15,7 @@ bot = TelegramBot.new(token: token)
 
 # Default inits
 gamectl = GameController.instance
+playerctl = PlayerController.instance
 invoker = CommandInvoker.instance
 
 # Main Loop
@@ -31,7 +32,8 @@ bot.get_updates(fail_silently: true) do |message|
             message: message,
             reply: reply,
             logger: logger,
-            gamectl: gamectl
+            gamectl: gamectl,
+            playerctl: playerctl
         }
 
         begin
