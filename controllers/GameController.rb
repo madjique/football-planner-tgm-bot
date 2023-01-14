@@ -1,11 +1,14 @@
 require_relative '../model/Game'
 require_relative '../model/Player'
+require 'date'
+require 'rufus-scheduler'
 
 class GameController
-    attr_reader :game, :pending_player
+    attr_reader :game, :pending_player, :registrations_open
 
-    def initialize()
+    def initialize(registrations_state=false)
         @game = Game.new()
+        @registrations_open = registrations_state
     end
 
     # Singleton
@@ -20,6 +23,15 @@ class GameController
 
     def startgame
         game.reset
+    end
+
+    def open_registrations
+        @registrations_open = true
+        game.reset
+    end
+
+    def close_registrations
+        @registrations_open = false
     end
 
     def add_player(player)
@@ -81,6 +93,34 @@ class GameController
 
     def pending_player?(username)
         pending_player&.get_username == username
+    end
+
+    def update_registrations
+        now = Time.now
+        weekday = Date.today.wday
+
+        if weekday >= 1 && weekday <= 5 
+            if now.hour >= 12 && now.hour < 18
+                GameController.instance.open_registrations
+            else
+                GameController.instance.close_registrations
+            end
+        end
+    end
+
+    def launch_automatic_registration_scheduler
+        # Init Scheduler
+        scheduler = Rufus::Scheduler.new 
+
+        scheduler.cron '0 12 * * 1' do
+            gamectl.open_registrations
+        end
+        
+        scheduler.cron '0 18 * * 5' do
+            gamectl.close_registrations
+        end
+
+        scheduler.join    
     end
 
     # Getters

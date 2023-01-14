@@ -1,6 +1,8 @@
 require 'telegram_bot'
 require 'logger'
+require 'rufus-scheduler'
 require 'require_all'
+require 'date'
 
 require_relative 'invoker'
 
@@ -17,6 +19,12 @@ bot = TelegramBot.new(token: token)
 gamectl = GameController.instance
 playerctl = PlayerController.instance
 invoker = CommandInvoker.instance
+
+# Update Registrations State
+Thread.new do
+    gamectl.update_registrations
+    gamectl.launch_automatic_registration_scheduler
+end
 
 # Main Loop
 
@@ -52,6 +60,14 @@ bot.get_updates(fail_silently: true) do |message|
                 invoker.cancel_player_from_game(ctx)
             when /confirm/i
                 invoker.confirm_player_in_main_list(ctx)
+            when /cancel_pending/i
+                invoker.confirm_player_in_main_list(ctx)
+            when /next_pending/i
+                invoker.confirm_player_in_main_list(ctx)
+            when /open_registrations/i
+                invoker.open_registrations(ctx)
+            when /close_registrations/i
+                invoker.close_registrations(ctx)
             when /players/i
                 invoker.show_all_players(ctx)
             else 
@@ -59,7 +75,7 @@ bot.get_updates(fail_silently: true) do |message|
             end  
     
         rescue => exception
-            reply.text = "Internal error has occured ⚠️"
+            reply.text = "Erreur Interne, contacte @madjidboudis ⚠️"
 
             logger.debug(gamectl.inspect)
             logger.debug(message.inspect)
@@ -72,5 +88,3 @@ bot.get_updates(fail_silently: true) do |message|
         end
     end
 end
-
-

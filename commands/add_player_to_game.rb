@@ -3,6 +3,10 @@ require_relative 'base'
 class Command
     class AddPlayerToGameCommand < Command::Base
         def run
+            if !gamectl.registrations_open
+                respond("La liste n'as pas encore commencer !\nElle débute le Lundi a Midi (12:00 CET)")
+                return 
+            end
             if gamectl.in_list_or_waiting_list?(requester_username)
                 log_info(gamectl.inspect)
                 respond("#{requester_fullname} est déja dans la liste! ❌")

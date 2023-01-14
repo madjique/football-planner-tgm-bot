@@ -91,4 +91,22 @@ class CommandInvoker
         end
         commands["confirm_player_in_main_list"].run
     end
+
+    def open_registrations(ctx)
+        if commands.key?("open_registrations")
+            commands["open_registrations"].reload_context(ctx)
+        else
+            commands["open_registrations"] = Command::OpenRegistrationsCommand.new(ctx)
+        end
+        commands["open_registrations"].run
+    end
+
+    def close_registrations(ctx)
+        if commands.key?("close_registrations")
+            commands["close_registrations"].reload_context(ctx)
+        else
+            commands["close_registrations"] = Command::CloseRegistrationsCommand.new(ctx)
+        end
+        commands["close_registrations"].run
+    end
 end
