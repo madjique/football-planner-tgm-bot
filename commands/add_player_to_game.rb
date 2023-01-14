@@ -3,13 +3,11 @@ require_relative 'base'
 class Command
     class AddPlayerToGameCommand < Command::Base
         def run
-            new_player_fullname = "#{message.from.first_name} #{message.from.last_name}"
-            new_player_username = message.from.username
-            if gamectl.in_list_or_waiting_list?(new_player_username)
+            if gamectl.in_list_or_waiting_list?(requester_username)
                 log_info(gamectl.inspect)
-                respond("#{new_player_fullname} est déja dans la liste! ❌")
+                respond("#{requester_fullname} est déja dans la liste! ❌")
             else
-                player = playerctl.get_player(new_player_fullname,new_player_username)
+                player = playerctl.get_player(requester_fullname,requester_username)
                 gamectl.add_player(player)
 
                 respond("#{player.fullname} rajouté a la liste avec succes ✅ ⚽")
