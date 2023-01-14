@@ -82,4 +82,13 @@ class CommandInvoker
         end
         commands["show_all_players"].run
     end
+
+    def confirm_player_in_main_list(ctx)
+        if commands.key?("confirm_player_in_main_list")
+            commands["confirm_player_in_main_list"].reload_context(ctx)
+        else
+            commands["confirm_player_in_main_list"] = Command::ConfirmPlayerInMainListCommand.new(ctx)
+        end
+        commands["confirm_player_in_main_list"].run
+    end
 end

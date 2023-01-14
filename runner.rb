@@ -50,6 +50,8 @@ bot.get_updates(fail_silently: true) do |message|
                 invoker.add_player_to_game(ctx)
             when /cancelme/i
                 invoker.cancel_player_from_game(ctx)
+            when /confirm/i
+                invoker.confirm_player_in_main_list(ctx)
             when /players/i
                 invoker.show_all_players(ctx)
             else 

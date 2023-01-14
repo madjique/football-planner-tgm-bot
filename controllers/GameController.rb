@@ -2,7 +2,7 @@ require_relative '../model/Game'
 require_relative '../model/Player'
 
 class GameController
-    attr_reader :game
+    attr_reader :game, :pending_player
 
     def initialize()
         @game = Game.new()
@@ -64,15 +64,23 @@ class GameController
             game.players.delete(player)
             if game.waiting_list.size > 0
                 transfered_player << game.waiting_list.shift
-                game.players << transfered_player
-
-                waiting_player_confirmation(transfered_player)
+                pending_player = transfered_player
             end
         end
     end
 
-    def waiting_player_confirmation(player)
-        nil
+    def confirm_waiting_player
+        game.players << pending_player
+        pending_player = nil
+    end
+
+    def timeout_pending_player
+        game.waiting_list << pending_player
+        pending_player << game.waiting_list.shift
+    end
+
+    def pending_player?(username)
+        pending_player&.get_username == username
     end
 
     # Getters
@@ -101,6 +109,9 @@ class GameController
         get_lists.find { |player| player.to_s == username}
     end
 
+    def get_last_player_in_list
+        game.players.last
+    end
     # Check functions
 
     def in_list_or_waiting_list?(username = '')
