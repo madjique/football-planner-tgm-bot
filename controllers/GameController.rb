@@ -27,7 +27,6 @@ class GameController
 
     def open_registrations
         @registrations_open = true
-        game.reset
     end
 
     def close_registrations
@@ -113,11 +112,12 @@ class GameController
         scheduler = Rufus::Scheduler.new 
 
         scheduler.cron '0 12 * * 1' do
-            gamectl.open_registrations
+            open_registrations
+            startgame
         end
         
         scheduler.cron '0 18 * * 5' do
-            gamectl.close_registrations
+            close_registrations
         end
 
         scheduler.join    
