@@ -9,7 +9,7 @@ require_relative 'invoker'
 require_all 'controllers/'
 
 # Init logger
-logger = Logger.new(STDOUT)
+logger = Logger.new("log.txt")
 
 # Init TGM Bot
 token = ENV['FMP_BOT_TOKEN'] 
@@ -29,6 +29,7 @@ end
 # Main Loop
 
 bot.get_updates(fail_silently: true) do |message|
+    logger.info("recieving @#{message.from.username}: #{message.text}")
     puts "@#{message.from.username}: #{message.text}"
     command = message.get_command_for(bot)
 
@@ -83,6 +84,7 @@ bot.get_updates(fail_silently: true) do |message|
         end 
 
         if replying
+            logger.info("sending #{reply.text.inspect}")
             puts "sending #{reply.text.inspect}"
             reply.send_with(bot)
         end
