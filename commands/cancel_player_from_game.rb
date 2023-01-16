@@ -3,7 +3,7 @@ require_relative 'base'
 class Command
     class CancelPlayerFromGameCommand < Command::Base
         def run
-            if gamectl.in_list_or_waiting_list?(requester_username)
+            if playerctl.existing_player(requester_username) && gamectl.in_list_or_waiting_list?(requester_username)
                 player = gamectl.get_player_from_lists(requester_username)
                 gamectl.cancel_player(player)
 

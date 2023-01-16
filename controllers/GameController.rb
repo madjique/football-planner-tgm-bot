@@ -69,13 +69,15 @@ class GameController
     end
 
     def cancel_player(player)
+        return unless in_list_or_waiting_list?(player&.get_username)
+
         if game.waiting_list.include?(player)
             game.waiting_list.delete(player) #reject! {|elt| elt.to_s == player.to_s}
         else
             game.players.delete(player)
             if game.waiting_list.size > 0
-                transfered_player << game.waiting_list.shift
-                pending_player = transfered_player
+                pending_player << game.waiting_list.shift
+                schedule_pending_timeout(player)
             end
         end
     end
@@ -100,9 +102,9 @@ class GameController
 
         if weekday >= 1 && weekday <= 5 
             if now.hour >= 12 && now.hour < 18
-                GameController.instance.open_registrations
+                open_registrations
             else
-                GameController.instance.close_registrations
+                close_registrations
             end
         end
     end

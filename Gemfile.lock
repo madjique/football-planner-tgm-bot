@@ -33,6 +33,7 @@ GEM
       descendants_tracker (~> 0.0, >= 0.0.3)
 
 PLATFORMS
+  universal-darwin-21
   x86_64-linux
 
 DEPENDENCIES
@@ -41,4 +42,4 @@ DEPENDENCIES
   telegram_bot
 
 BUNDLED WITH
-   2.3.25
+   2.3.22
