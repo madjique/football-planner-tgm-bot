@@ -4,11 +4,12 @@ require 'date'
 require 'rufus-scheduler'
 
 class GameController
-    attr_reader :game, :pending_player, :registrations_open
+    attr_reader :game, :pending_player, :registrations_open, :scheduler
 
     def initialize(registrations_state=false)
         @game = Game.new()
         @registrations_open = registrations_state
+        @scheduler = Rufus::Scheduler.new 
     end
 
     # Singleton
@@ -77,23 +78,36 @@ class GameController
             game.players.delete(player)
             if game.waiting_list.size > 0
                 pending_player << game.waiting_list.shift
-                schedule_pending_timeout(player)
+                schedule_pending_timeout
             end
         end
     end
 
     def confirm_waiting_player
-        game.players << pending_player
-        pending_player = nil
+        if pending_player
+            game.players << pending_player
+            pending_player = nil
+        end 
     end
 
     def timeout_pending_player
-        game.waiting_list << pending_player
-        pending_player << game.waiting_list.shift
+        if pending_player
+            game.waiting_list << pending_player
+            pending_player << game.waiting_list.shift
+        end
     end
 
     def pending_player?(username)
         pending_player&.get_username == username
+    end
+
+    def schedule_pending_timeout
+        Thread.new do
+            scheduler.in '1h' do
+                timeout_pending_player
+            end
+            scheduler.join  
+        end
     end
 
     def update_registrations
@@ -110,9 +124,6 @@ class GameController
     end
 
     def launch_automatic_registration_scheduler
-        # Init Scheduler
-        scheduler = Rufus::Scheduler.new 
-
         scheduler.cron '0 12 * * 1' do
             open_registrations
             startgame

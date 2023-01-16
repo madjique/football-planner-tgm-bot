@@ -86,7 +86,12 @@ bot.get_updates(fail_silently: true) do |message|
         if replying
             logger.info("sending #{reply.text.inspect}")
             puts "sending #{reply.text.inspect}"
-            reply.send_with(bot)
+
+            begin
+                reply.send_with(bot)
+            rescue => exception
+                logger.error(exception)
+            end
         end
     end
 end
