@@ -77,28 +77,28 @@ class GameController
         else
             game.players.delete(player)
             if game.waiting_list.size > 0
-                pending_player << game.waiting_list.shift
+                @pending_player << game.waiting_list.shift
                 schedule_pending_timeout
             end
         end
     end
 
     def confirm_waiting_player
-        if pending_player
-            game.players << pending_player
-            pending_player = nil
+        if @pending_player
+            game.players << @pending_player
+            @pending_player = nil
         end 
     end
 
     def timeout_pending_player
-        if pending_player
-            game.waiting_list << pending_player
-            pending_player << game.waiting_list.shift
+        if @pending_player
+            game.waiting_list << @pending_player
+            @pending_player << game.waiting_list.shift
         end
     end
 
     def pending_player?(username)
-        pending_player&.get_username == username
+        @pending_player&.get_username == username
     end
 
     def schedule_pending_timeout
@@ -140,7 +140,11 @@ class GameController
 
     # Getters
 
-    def get_game()
+    def get_pending_player
+        @pending_player
+    end
+
+    def get_game
         game
     end
     

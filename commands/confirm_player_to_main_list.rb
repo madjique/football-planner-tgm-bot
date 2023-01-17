@@ -1,7 +1,7 @@
 require_relative 'base'
 
 class Command
-    class ConfirmPlayerInMainListCommand < Command::Base
+    class ConfirmPlayerToMainListCommand < Command::Base
         def run
             if gamectl.pending_player?(requester_username)
                 gamectl.confirm_waiting_player

@@ -60,15 +60,15 @@ bot.get_updates(fail_silently: true) do |message|
             when /cancelme/i
                 invoker.cancel_player_from_game(ctx)
             when /confirm/i
-                invoker.confirm_player_in_main_list(ctx)
-            when /cancel_pending/i
-                invoker.confirm_player_in_main_list(ctx)
+                invoker.confirm_player_to_main_list(ctx)
             when /next_pending/i
-                invoker.confirm_player_in_main_list(ctx)
+                invoker.move_from_waiting_list_to_pending(ctx)
             when /open_registrations/i
                 invoker.open_registrations(ctx)
             when /close_registrations/i
                 invoker.close_registrations(ctx)
+            when /load_players/i
+                invoker.load_group_players(ctx)
             when /players/i
                 invoker.show_all_players(ctx)
             else 

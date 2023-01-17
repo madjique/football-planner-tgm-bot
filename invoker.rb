@@ -83,13 +83,13 @@ class CommandInvoker
         commands["show_all_players"].execute_with_checks
     end
 
-    def confirm_player_in_main_list(ctx)
-        if commands.key?("confirm_player_in_main_list")
-            commands["confirm_player_in_main_list"].reload_context(ctx)
+    def confirm_player_to_main_list(ctx)
+        if commands.key?("confirm_player_to_main_list")
+            commands["confirm_player_to_main_list"].reload_context(ctx)
         else
-            commands["confirm_player_in_main_list"] = Command::ConfirmPlayerInMainListCommand.new(ctx)
+            commands["confirm_player_to_main_list"] = Command::ConfirmPlayerToMainListCommand.new(ctx)
         end
-        commands["confirm_player_in_main_list"].execute_with_checks
+        commands["confirm_player_to_main_list"].execute_with_checks
     end
 
     def open_registrations(ctx)
@@ -108,5 +108,23 @@ class CommandInvoker
             commands["close_registrations"] = Command::CloseRegistrationsCommand.new(ctx)
         end
         commands["close_registrations"].execute_with_admin
+    end
+
+    def move_from_waiting_list_to_pending(ctx)
+        if commands.key?("move_from_waiting_list_to_pending")
+            commands["move_from_waiting_list_to_pending"].reload_context(ctx)
+        else
+            commands["move_from_waiting_list_to_pending"] = Command::MoveFromWaitingListToPendingCommand.new(ctx)
+        end
+        commands["move_from_waiting_list_to_pending"].execute_with_admin
+    end
+
+    def load_group_players(ctx)
+        if commands.key?("load_group_players")
+            commands["load_group_players"].reload_context(ctx)
+        else
+            commands["load_group_players"] = Command::LoadGroupPlayersCommand.new(ctx)
+        end
+        commands["load_group_players"].execute_with_admin
     end
 end

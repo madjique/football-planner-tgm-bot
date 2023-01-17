@@ -3,8 +3,6 @@ require_relative 'base'
 class Command
     class ShowListCommand < Command::Base
         def run
-            log_info(gamectl.get_main_list)
-
             game_infos = gamectl.get_game_info
 
             pending_list = gamectl.pending_player ? "\n*************************\nEn attente de confirmation\n---\n#{gamectl.pending_player&.fullname}" : ""
@@ -16,6 +14,8 @@ class Command
                 "\n*************************\nListe d'attente\n---\n",
                 gamectl.get_waiting_list
             ])
+
+            log_info(gamectl.get_game)
         end
     end
 end
