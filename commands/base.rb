@@ -8,8 +8,8 @@ class Command
             @reply = ctx[:reply]
             @logger = ctx[:logger]
             @playerctl = ctx[:playerctl]
-            @requester_fullname = "#{message.from.first_name} #{message.from.last_name}"
-            @requester_username = message.from.username
+            @requester_fullname = "#{message.from.first_name} #{message.from.last_name}" || nil
+            @requester_username = message.from.username || nil
         end
 
         def reload_context(ctx)
@@ -37,5 +37,39 @@ class Command
                 reply.text+= txt
             end 
         end
+
+        def run
+            respond("Cette fonctionalitée n'est pas encore implémentée ❌")
+        end
+
+        def match_requirements?
+            requester_fullname && requester_username
+        end
+
+        def admin?
+            #TODO : Add dynamic admin liste
+            requester_username == 'madjidboudis'
+        end
+
+        def execute
+            run
+        end 
+
+        def execute_with_checks
+            puts match_requirements?
+            if match_requirements?
+                run
+            else
+                respond("Vous ne satisfiez pas les conditions pour effectuer cette Action\n( Assurez-vous d'avoir un username et un Prénom )")
+            end
+        end 
+
+        def execute_with_admin
+            if admin?
+                run
+            else
+                respond("Vous n'avez pas les droits d'effectuer cette opération ❌")
+            end
+        end 
     end
 end

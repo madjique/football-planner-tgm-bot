@@ -13,7 +13,7 @@ class Command
                 "\n*************************\nListe des titulaires\n---\n",
                 gamectl.get_main_list,
                 pending_list,
-                "\n*************************\nListe des d'attente\n---\n",
+                "\n*************************\nListe d'attente\n---\n",
                 gamectl.get_waiting_list
             ])
         end

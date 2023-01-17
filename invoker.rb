@@ -26,7 +26,7 @@ class CommandInvoker
         else
             commands["hello"] = Command::HelloCommand.new(ctx)
         end
-        commands["hello"].run
+        commands["hello"].execute
     end
 
     def log(ctx)
@@ -35,7 +35,7 @@ class CommandInvoker
         else
             commands["log"] = Command::AdminLogCommand.new(ctx)
         end
-        commands["log"].run
+        commands["log"].execute_with_admin
     end
 
     def begin_match(ctx)
@@ -44,7 +44,7 @@ class CommandInvoker
         else
             commands["begin_match"] = Command::BeginMatchCommand.new(ctx)
         end
-        commands["begin_match"].run
+        commands["begin_match"].execute_with_admin
     end
 
     def show_list(ctx)
@@ -53,7 +53,7 @@ class CommandInvoker
         else
             commands["show_list"] = Command::ShowListCommand.new(ctx)
         end
-        commands["show_list"].run
+        commands["show_list"].execute
     end
 
     def add_player_to_game(ctx)
@@ -62,7 +62,7 @@ class CommandInvoker
         else
             commands["add_player_to_game"] = Command::AddPlayerToGameCommand.new(ctx)
         end
-        commands["add_player_to_game"].run
+        commands["add_player_to_game"].execute_with_checks
     end
 
     def cancel_player_from_game(ctx)
@@ -71,7 +71,7 @@ class CommandInvoker
         else
             commands["cancel_player_from_game"] = Command::CancelPlayerFromGameCommand.new(ctx)
         end
-        commands["cancel_player_from_game"].run
+        commands["cancel_player_from_game"].execute_with_checks
     end
 
     def show_all_players(ctx)
@@ -80,7 +80,7 @@ class CommandInvoker
         else
             commands["show_all_players"] = Command::ShowAllPlayersCommand.new(ctx)
         end
-        commands["show_all_players"].run
+        commands["show_all_players"].execute_with_checks
     end
 
     def confirm_player_in_main_list(ctx)
@@ -89,7 +89,7 @@ class CommandInvoker
         else
             commands["confirm_player_in_main_list"] = Command::ConfirmPlayerInMainListCommand.new(ctx)
         end
-        commands["confirm_player_in_main_list"].run
+        commands["confirm_player_in_main_list"].execute_with_checks
     end
 
     def open_registrations(ctx)
@@ -98,7 +98,7 @@ class CommandInvoker
         else
             commands["open_registrations"] = Command::OpenRegistrationsCommand.new(ctx)
         end
-        commands["open_registrations"].run
+        commands["open_registrations"].execute_with_admin
     end
 
     def close_registrations(ctx)
@@ -107,6 +107,6 @@ class CommandInvoker
         else
             commands["close_registrations"] = Command::CloseRegistrationsCommand.new(ctx)
         end
-        commands["close_registrations"].run
+        commands["close_registrations"].execute_with_admin
     end
 end

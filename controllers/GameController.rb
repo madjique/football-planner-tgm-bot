@@ -58,7 +58,7 @@ class GameController
     end
 
     def get_waiting_list
-        game.waiting_list.map { | player | player.to_s} .join("\n")
+        game.waiting_list.map { | player | "#{game.waiting_list.index(player)+1} - #{player.get_fullname}"} .join("\n")
     end
 
     def get_game_info
