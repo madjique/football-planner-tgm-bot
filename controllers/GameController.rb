@@ -112,15 +112,17 @@ class GameController
 
     def update_registrations
         now = Time.now
-        weekday = Date.today.wday
+        weekday =  DateTime.now.wday
 
-        if weekday >= 1 && weekday <= 5 
-            if now.hour >= 12 && now.hour < 18
-                open_registrations
-            else
-                close_registrations
-            end
+        monday_after_12 = weekday >= 2 or (weekday == 1 and now.hour >= 12)  
+        friday_before_18 = weekday <= 4 or (weekday == 5 and now.hour < 18) 
+
+        if monday_after_12 and friday_before_18
+            open_registrations
+        else
+            close_registrations
         end
+
     end
 
     def launch_automatic_registration_scheduler
