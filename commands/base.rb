@@ -43,7 +43,8 @@ class Command
         end
 
         def match_requirements?
-            requester_fullname && requester_username
+            foot_clignacourt_group_chat= (message.chat.id == -1001527306990)
+            admin? or (foot_clignacourt_group_chat and requester_fullname and requester_username)
         end
 
         def admin?
@@ -56,7 +57,6 @@ class Command
         end 
 
         def execute_with_checks
-            puts match_requirements?
             if match_requirements?
                 run
             else
