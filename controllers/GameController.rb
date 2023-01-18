@@ -77,7 +77,7 @@ class GameController
         else
             game.players.delete(player)
             if game.waiting_list.size > 0
-                @pending_player << game.waiting_list.shift
+                @pending_player = game.waiting_list.shift
                 schedule_pending_timeout
             end
         end
@@ -93,7 +93,7 @@ class GameController
     def timeout_pending_player
         if @pending_player
             game.waiting_list << @pending_player
-            @pending_player << game.waiting_list.shift
+            @pending_player = game.waiting_list.shift
         end
     end
 

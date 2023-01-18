@@ -7,8 +7,8 @@ class Command
                 player = gamectl.get_player_from_lists(requester_username)
                 gamectl.cancel_player(player)
 
-                pending_player = gamectl.get_last_player_in_list
-                pending_message = pending_player ? "@#{pending_player&.get_username} a ton tour tu as 1 heure pour comfirmer ta présence\nécrit /comfirmer pour confirmer" : ""
+                pending_player = gamectl.pending_player
+                pending_message = pending_player ? "@#{pending_player&.get_username} a ton tour tu as 1 heure pour comfirmer ta présence\nécrit /confirm pour confirmer" : ""
 
                 respond_multiple([
                     "#{requester_fullname} annulé ! 🟥\n",
