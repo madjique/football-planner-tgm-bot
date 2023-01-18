@@ -27,7 +27,7 @@ docker run -e FMP_BOT_TOKEN=YOUR_BOT_TOKEN --name football-planner-tgm-bot footb
 All set ✅
 
 
-# Customize your Bot for specific telegram group chat
+# Customize your Bot for your own telegram group channel
 
 in ```runner.rb```
 
