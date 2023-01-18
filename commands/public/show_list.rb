@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'public_base'
 
 class Command
-    class ShowListCommand < Command::Base
+    class ShowListCommand < Command::PublicBase
         def run
             game_infos = gamectl.get_game_info
 

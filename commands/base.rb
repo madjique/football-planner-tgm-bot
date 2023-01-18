@@ -41,35 +41,5 @@ class Command
         def run
             respond("Cette fonctionalitée n'est pas encore implémentée ❌")
         end
-
-        def match_requirements?
-            foot_clignacourt_group_chat= (message.chat.id == -1001527306990)
-            admin? or (foot_clignacourt_group_chat and requester_fullname and requester_username)
-        end
-
-        def admin?
-            #TODO : Add dynamic admin liste
-            requester_username == 'madjidboudis'
-        end
-
-        def execute
-            run
-        end 
-
-        def execute_with_checks
-            if match_requirements?
-                run
-            else
-                respond("Vous ne satisfiez pas les conditions pour effectuer cette Action\n( Assurez-vous d'avoir un username et un Prénom )")
-            end
-        end 
-
-        def execute_with_admin
-            if admin?
-                run
-            else
-                respond("Vous n'avez pas les droits d'effectuer cette opération ❌")
-            end
-        end 
     end
 end

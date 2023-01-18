@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'group_chat_base'
 
 class Command
-    class CancelPlayerFromGameCommand < Command::Base
+    class CancelPlayerFromGameCommand < Command::GroupChatBase
         def run
             if playerctl.existing_player(requester_username) && gamectl.in_list_or_waiting_list?(requester_username)
                 player = gamectl.get_player_from_lists(requester_username)

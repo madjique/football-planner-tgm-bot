@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'admin_base'
 
 class Command
-    class MoveFromWaitingListToPendingCommand < Command::Base
+    class MoveFromWaitingListToPendingCommand < Command::AdminBase
         def run
             prev_pending_player = gamectl.get_pending_player
             return unless prev_pending_player

@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'admin_base'
 
 class Command
-    class OpenRegistrationsCommand < Command::Base
+    class OpenRegistrationsCommand < Command::AdminBase
         def run
             gamectl.open_registrations
             respond("Nouvelle liste ! inscription ouvertes ⚽")

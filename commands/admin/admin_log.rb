@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'admin_base'
 
 class Command
-    class AdminLogCommand < Command::Base
+    class LogCommand < Command::AdminBase
         def run
             respond("logs displayed in console ✅")
             logger.info(gamectl.inspect)

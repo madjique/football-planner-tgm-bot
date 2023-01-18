@@ -1,6 +1,8 @@
 require 'require_all'
 
-require_all 'commands/'
+require_all 'commands/admin/'
+require_all 'commands/group_chat/'
+require_all 'commands/public/'
 
 class CommandInvoker
     attr_reader :commands
@@ -33,9 +35,9 @@ class CommandInvoker
         if commands.key?("log")
             commands["log"].reload_context(ctx)
         else
-            commands["log"] = Command::AdminLogCommand.new(ctx)
+            commands["log"] = Command::LogCommand.new(ctx)
         end
-        commands["log"].execute_with_admin
+        commands["log"].execute
     end
 
     def begin_match(ctx)
@@ -44,7 +46,7 @@ class CommandInvoker
         else
             commands["begin_match"] = Command::BeginMatchCommand.new(ctx)
         end
-        commands["begin_match"].execute_with_admin
+        commands["begin_match"].execute
     end
 
     def show_list(ctx)
@@ -62,7 +64,7 @@ class CommandInvoker
         else
             commands["add_player_to_game"] = Command::AddPlayerToGameCommand.new(ctx)
         end
-        commands["add_player_to_game"].execute_with_checks
+        commands["add_player_to_game"].execute
     end
 
     def cancel_player_from_game(ctx)
@@ -71,7 +73,7 @@ class CommandInvoker
         else
             commands["cancel_player_from_game"] = Command::CancelPlayerFromGameCommand.new(ctx)
         end
-        commands["cancel_player_from_game"].execute_with_checks
+        commands["cancel_player_from_game"].execute
     end
 
     def show_all_players(ctx)
@@ -80,7 +82,7 @@ class CommandInvoker
         else
             commands["show_all_players"] = Command::ShowAllPlayersCommand.new(ctx)
         end
-        commands["show_all_players"].execute_with_checks
+        commands["show_all_players"].execute
     end
 
     def confirm_player_to_main_list(ctx)
@@ -89,7 +91,7 @@ class CommandInvoker
         else
             commands["confirm_player_to_main_list"] = Command::ConfirmPlayerToMainListCommand.new(ctx)
         end
-        commands["confirm_player_to_main_list"].execute_with_checks
+        commands["confirm_player_to_main_list"].execute
     end
 
     def open_registrations(ctx)
@@ -98,7 +100,7 @@ class CommandInvoker
         else
             commands["open_registrations"] = Command::OpenRegistrationsCommand.new(ctx)
         end
-        commands["open_registrations"].execute_with_admin
+        commands["open_registrations"].execute
     end
 
     def close_registrations(ctx)
@@ -107,7 +109,7 @@ class CommandInvoker
         else
             commands["close_registrations"] = Command::CloseRegistrationsCommand.new(ctx)
         end
-        commands["close_registrations"].execute_with_admin
+        commands["close_registrations"].execute
     end
 
     def move_from_waiting_list_to_pending(ctx)
@@ -116,7 +118,7 @@ class CommandInvoker
         else
             commands["move_from_waiting_list_to_pending"] = Command::MoveFromWaitingListToPendingCommand.new(ctx)
         end
-        commands["move_from_waiting_list_to_pending"].execute_with_admin
+        commands["move_from_waiting_list_to_pending"].execute
     end
 
     def load_group_players(ctx)
@@ -125,6 +127,6 @@ class CommandInvoker
         else
             commands["load_group_players"] = Command::LoadGroupPlayersCommand.new(ctx)
         end
-        commands["load_group_players"].execute_with_admin
+        commands["load_group_players"].execute
     end
 end

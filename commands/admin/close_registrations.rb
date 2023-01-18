@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'admin_base'
 
 class Command
-    class CloseRegistrationsCommand < Command::Base
+    class CloseRegistrationsCommand < Command::AdminBase
         def run
             gamectl.close_registrations
             respond("La liste est fermé ! Bon match ❌")

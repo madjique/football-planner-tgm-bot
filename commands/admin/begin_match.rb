@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'admin_base'
 
 class Command
-    class BeginMatchCommand < Command::Base
+    class BeginMatchCommand < Command::AdminBase
         def run
             gamectl.startgame
             respond("Nouvelle liste réinitialisé ⚽")

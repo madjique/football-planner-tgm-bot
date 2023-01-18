@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'public_base'
 
 class Command
-    class HelloCommand < Command::Base
+    class HelloCommand < Command::PublicBase
         def run
             respond("Hello ⚽")
         end

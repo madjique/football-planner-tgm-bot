@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'group_chat_base'
 
 class Command
-    class AddPlayerToGameCommand < Command::Base
+    class AddPlayerToGameCommand < Command::GroupChatBase
         def run
             if !gamectl.registrations_open
                 respond("La liste n'a pas encore commencer !\nElle débute le Lundi a Midi (12:00 CET)")

@@ -1,7 +1,7 @@
-require_relative 'base'
+require_relative 'admin_base'
 
 class Command
-    class ShowAllPlayersCommand < Command::Base
+    class ShowAllPlayersCommand < Command::AdminBase
         def run
             log_info(Player.all)
             respond_multiple([
