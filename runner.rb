@@ -40,8 +40,8 @@ bot.get_updates(fail_silently: true) do |message|
     message.reply do |reply|
         replying = true
 
-        # Command's context 
-        ctx = {
+        # Loading command's context 
+        invoker.load_context({
             message: message,
             reply: reply,
             logger: logger,
@@ -49,36 +49,36 @@ bot.get_updates(fail_silently: true) do |message|
             playerctl: playerctl,
             group_chat_id: group_chat_id,
             admin_list: admin_list
-        }
+        })
 
         begin
             case command
-            when /\/hello\s*$/i
-                invoker.hello(ctx)
-            when /\/log\s*$/i
-                invoker.log(ctx)
-            when /\/beginmatch\s*$/i
-                invoker.begin_match(ctx)
-            when /\/showlist\s*$/i
-                invoker.show_list(ctx)
-            when /\/addme\s*$/i
-                invoker.add_player_to_game(ctx)
-            when /\/cancelme\s*$/i
-                invoker.cancel_player_from_game(ctx)
-            when /\/confirm\s*$/i
-                invoker.confirm_player_to_main_list(ctx)
-            when /\/next_pending\s*$/i
-                invoker.move_from_waiting_list_to_pending(ctx)
-            when /\/open_registrations\s*$/i
-                invoker.open_registrations(ctx)
-            when /\/close_registrations\s*$/i
-                invoker.close_registrations(ctx)
-            when /\/load_players\s*$/i
-                invoker.load_group_players(ctx)
-            when /\/cancel_pending\s*$/i
-                invoker.cancel_pending_player(ctx)
-            when /\/players\s*$/i
-                invoker.show_all_players(ctx)
+            when /^\/hello\s*$/i
+                invoker.hello
+            when /^\/log\s*$/i
+                invoker.log
+            when /^\/beginmatch\s*$/i
+                invoker.begin_match
+            when /^\/showlist\s*$/i
+                invoker.show_list
+            when /^\/addme\s*$/i
+                invoker.add_player_to_game
+            when /^\/cancelme\s*$/i
+                invoker.cancel_player_from_game
+            when /^\/confirm\s*$/i
+                invoker.confirm_player_to_main_list
+            when /^\/next_pending\s*$/i
+                invoker.move_from_waiting_list_to_pending
+            when /^\/open_registrations\s*$/i
+                invoker.open_registrations
+            when /^\/close_registrations\s*$/i
+                invoker.close_registrations
+            when /^\/load_players\s*$/i
+                invoker.load_group_players
+            when /^\/cancel_pending\s*$/i
+                invoker.cancel_pending_player
+            when /^\/players\s*$/i
+                invoker.show_all_players
             else 
                 replying = false
             end  

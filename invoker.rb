@@ -5,10 +5,11 @@ require_all 'commands/group_chat/'
 require_all 'commands/public/'
 
 class CommandInvoker
-    attr_reader :commands
+    attr_reader :commands, :ctx
 
     def initialize()
         @commands = {} 
+        @ctx = {}
     end
 
     # Singleton
@@ -19,10 +20,13 @@ class CommandInvoker
         @instance 
     end 
 
+    def load_context(_ctx)
+        @ctx = _ctx
+    end
 
     # Commands
 
-    def hello(ctx)
+    def hello
         if commands.key?("hello")
             commands["hello"].reload_context(ctx)
         else
@@ -31,7 +35,7 @@ class CommandInvoker
         commands["hello"].execute
     end
 
-    def log(ctx)
+    def log
         if commands.key?("log")
             commands["log"].reload_context(ctx)
         else
@@ -40,7 +44,7 @@ class CommandInvoker
         commands["log"].execute
     end
 
-    def begin_match(ctx)
+    def begin_match
         if commands.key?("begin_match")
             commands["begin_match"].reload_context(ctx)
         else
@@ -49,7 +53,7 @@ class CommandInvoker
         commands["begin_match"].execute
     end
 
-    def show_list(ctx)
+    def show_list
         if commands.key?("show_list")
             commands["show_list"].reload_context(ctx)
         else
@@ -58,7 +62,7 @@ class CommandInvoker
         commands["show_list"].execute
     end
 
-    def add_player_to_game(ctx)
+    def add_player_to_game
         if commands.key?("add_player_to_game")
             commands["add_player_to_game"].reload_context(ctx)
         else
@@ -67,7 +71,7 @@ class CommandInvoker
         commands["add_player_to_game"].execute
     end
 
-    def cancel_player_from_game(ctx)
+    def cancel_player_from_game
         if commands.key?("cancel_player_from_game")
             commands["cancel_player_from_game"].reload_context(ctx)
         else
@@ -76,7 +80,7 @@ class CommandInvoker
         commands["cancel_player_from_game"].execute
     end
 
-    def show_all_players(ctx)
+    def show_all_players
         if commands.key?("show_all_players")
             commands["show_all_players"].reload_context(ctx)
         else
@@ -85,7 +89,7 @@ class CommandInvoker
         commands["show_all_players"].execute
     end
 
-    def confirm_player_to_main_list(ctx)
+    def confirm_player_to_main_list
         if commands.key?("confirm_player_to_main_list")
             commands["confirm_player_to_main_list"].reload_context(ctx)
         else
@@ -94,7 +98,7 @@ class CommandInvoker
         commands["confirm_player_to_main_list"].execute
     end
 
-    def open_registrations(ctx)
+    def open_registrations
         if commands.key?("open_registrations")
             commands["open_registrations"].reload_context(ctx)
         else
@@ -103,7 +107,7 @@ class CommandInvoker
         commands["open_registrations"].execute
     end
 
-    def close_registrations(ctx)
+    def close_registrations
         if commands.key?("close_registrations")
             commands["close_registrations"].reload_context(ctx)
         else
@@ -112,7 +116,7 @@ class CommandInvoker
         commands["close_registrations"].execute
     end
 
-    def move_from_waiting_list_to_pending(ctx)
+    def move_from_waiting_list_to_pending
         if commands.key?("move_from_waiting_list_to_pending")
             commands["move_from_waiting_list_to_pending"].reload_context(ctx)
         else
@@ -121,7 +125,7 @@ class CommandInvoker
         commands["move_from_waiting_list_to_pending"].execute
     end
 
-    def load_group_players(ctx)
+    def load_group_players
         if commands.key?("load_group_players")
             commands["load_group_players"].reload_context(ctx)
         else
@@ -130,7 +134,7 @@ class CommandInvoker
         commands["load_group_players"].execute
     end
 
-    def cancel_pending_player(ctx)
+    def cancel_pending_player
         if commands.key?("cancel_pending_player")
             commands["cancel_pending_player"].reload_context(ctx)
         else
