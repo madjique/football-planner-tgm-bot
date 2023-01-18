@@ -129,4 +129,13 @@ class CommandInvoker
         end
         commands["load_group_players"].execute
     end
+
+    def cancel_pending_player(ctx)
+        if commands.key?("cancel_pending_player")
+            commands["cancel_pending_player"].reload_context(ctx)
+        else
+            commands["cancel_pending_player"] = Command::CancelPendingPlayerCommand.new(ctx)
+        end
+        commands["cancel_pending_player"].execute
+    end
 end

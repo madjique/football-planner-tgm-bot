@@ -24,6 +24,7 @@ class GameController
 
     def startgame
         game.reset
+        @pending_player = nil
     end
 
     def open_registrations
@@ -93,12 +94,20 @@ class GameController
     def timeout_pending_player
         if @pending_player
             game.waiting_list << @pending_player
-            @pending_player = game.waiting_list.shift
+            next_pending_player
         end
+    end
+
+    def next_pending_player
+        @pending_player = game.waiting_list.shift
     end
 
     def pending_player?(username)
         @pending_player&.get_username == username
+    end
+
+    def reset_pending_player
+        @pending_player = nil
     end
 
     def schedule_pending_timeout(player)
