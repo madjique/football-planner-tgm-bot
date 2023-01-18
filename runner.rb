@@ -15,6 +15,10 @@ logger = Logger.new("log.txt")
 token = ENV['FMP_BOT_TOKEN'] 
 bot = TelegramBot.new(token: token)
 
+# TODO : to be moved private 
+group_chat_id = -1001527306990 # Your chat group id
+admin_list = ['madjidboudis','miisterRH'] # Your admin's username list
+
 # Default inits
 gamectl = GameController.instance
 playerctl = PlayerController.instance
@@ -42,7 +46,9 @@ bot.get_updates(fail_silently: true) do |message|
             reply: reply,
             logger: logger,
             gamectl: gamectl,
-            playerctl: playerctl
+            playerctl: playerctl,
+            group_chat_id: group_chat_id,
+            admin_list: admin_list
         }
 
         begin

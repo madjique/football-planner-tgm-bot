@@ -1,6 +1,6 @@
 class Command
     class Base
-        attr_reader :gamectl, :message, :reply, :logger, :playerctl, :requester_fullname, :requester_username
+        attr_reader :gamectl, :message, :reply, :logger, :playerctl, :requester_fullname, :requester_username, :group_chat_id, :admin_list
         
         def initialize(ctx)
             @gamectl = ctx[:gamectl]
@@ -8,6 +8,8 @@ class Command
             @reply = ctx[:reply]
             @logger = ctx[:logger]
             @playerctl = ctx[:playerctl]
+            @group_chat_id = ctx[:group_chat_id]
+            @admin_list = ctx[:admin_list]
             @requester_fullname = "#{message.from.first_name} #{message.from.last_name}" || nil
             @requester_username = message.from.username || nil
         end
@@ -39,8 +41,7 @@ class Command
         end
 
         def admin?
-            #TODO : Add dynamic admin liste
-            requester_username == 'madjidboudis'
+            admin_list.include?(requester_username)
         end
         
         def run
