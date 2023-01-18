@@ -6,8 +6,8 @@ class Command
             pending_player = gamectl.get_pending_player
             return unless pending_player
 
-            gamectl.reset_pending_player(pending_player)
-            
+            gamectl.delete_pending_player(pending_player)
+
             next_pending_player = gamectl.next_pending_player
             gamectl.schedule_pending_timeout(next_pending_player)
 

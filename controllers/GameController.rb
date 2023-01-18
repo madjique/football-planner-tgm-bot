@@ -119,7 +119,7 @@ class GameController
         game.pending_list.include?(PlayerController.instance.existing_player(username))
     end
 
-    def reset_pending_player(player)
+    def delete_pending_player(player)
         game.pending_list.delete(player)
     end
 
