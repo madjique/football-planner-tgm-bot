@@ -5,7 +5,7 @@ class Command
         def run
             game_infos = gamectl.get_game_info
 
-            pending_list = gamectl.pending_player ? "\n*************************\nEn attente de confirmation\n---\n#{gamectl.pending_player&.fullname}" : ""
+            pending_list = !gamectl.get_pending_list.empty? ? "\n*************************\nEn attente de confirmation\n---\n#{gamectl.get_pending_list}" : ""
             respond_multiple([
                 "#{game_infos[:day]}","\nHeure : #{game_infos[:time]}","\nà #{game_infos[:location]}",
                 "\n*************************\nListe des titulaires\n---\n",

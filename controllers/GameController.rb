@@ -4,7 +4,7 @@ require 'date'
 require 'rufus-scheduler'
 
 class GameController
-    attr_reader :game, :pending_player, :registrations_open, :scheduler
+    attr_reader :game, :registrations_open, :scheduler
 
     def initialize(registrations_state=false)
         @game = Game.new()
@@ -24,7 +24,6 @@ class GameController
 
     def startgame
         game.reset
-        @pending_player = nil
     end
 
     def open_registrations
@@ -36,7 +35,7 @@ class GameController
     end
 
     def add_player(player)
-        if game.players.size < game.max_players and @pending_player.nil?
+        if game.players.size < game.max_players and game.pending_list.empty?
             game.players << player
         else
             game.waiting_list << player
@@ -62,6 +61,10 @@ class GameController
         game.waiting_list.map { | player | "#{game.waiting_list.index(player)+1} - #{player.get_fullname}"} .join("\n")
     end
 
+    def get_pending_list
+        game.pending_list.map { | player | "#{game.pending_list.index(player)+1} - #{player&.get_fullname}"} .join("\n")
+    end
+
     def get_game_info
         {
             day: game.get_day,
@@ -78,43 +81,53 @@ class GameController
         else
             game.players.delete(player)
             if game.waiting_list.size > 0
-                @pending_player = game.waiting_list.shift
+                game.pending_list << game.waiting_list.shift
                 schedule_pending_timeout(player)
             end
         end
     end
 
-    def confirm_waiting_player
-        if @pending_player
-            game.players << @pending_player
-            @pending_player = nil
+    def confirm_waiting_player(player)
+        if game.pending_list.include?(player)
+            game.players << player
+            game.pending_list.delete(player)
         end 
     end
 
-    def timeout_pending_player
-        if @pending_player
-            game.waiting_list << @pending_player
-            next_pending_player
+    def timeout_pending_player(player)
+        if game.pending_list.include?(player)
+            game.waiting_list << player
+            game.pending_list.delete(player)
         end
+
+        next_pending_player
     end
 
     def next_pending_player
-        @pending_player = game.waiting_list.shift
+        player_from_waiting_list = game.waiting_list.shift
+
+        game.pending_list << player_from_waiting_list if !player_from_waiting_list.nil?
+        game.pending_list.last
+    end
+
+    def last_pending_player
+
+        game.pending_list.last
     end
 
     def pending_player?(username)
-        @pending_player&.get_username == username
+        game.pending_list.include?(PlayerController.instance.existing_player(username))
     end
 
-    def reset_pending_player
-        @pending_player = nil
+    def reset_pending_player(player)
+        game.pending_list.delete(player)
     end
 
     def schedule_pending_timeout(player)
         Thread.new do
             scheduler.in '1h' do
                 if pending_player?(player.get_username)
-                    timeout_pending_player
+                    timeout_pending_player(player)
                 end
             end
             scheduler.join  
@@ -152,7 +165,7 @@ class GameController
     # Getters
 
     def get_pending_player
-        @pending_player
+        game.pending_list.last
     end
 
     def get_game

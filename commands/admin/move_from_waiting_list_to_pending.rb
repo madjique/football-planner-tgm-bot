@@ -5,9 +5,10 @@ class Command
         def run
             prev_pending_player = gamectl.get_pending_player
             return unless prev_pending_player
-            gamectl.timeout_pending_player
-            next_pending_player = gamectl.get_pending_player
+
+            next_pending_player = gamectl.timeout_pending_player(prev_pending_player)
             return unless next_pending_player
+            
             gamectl.schedule_pending_timeout(next_pending_player)
 
             respond_multiple([
