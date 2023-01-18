@@ -104,7 +104,7 @@ class GameController
     def schedule_pending_timeout(player)
         Thread.new do
             scheduler.in '1h' do
-                if @pending_player?(player.get_username)
+                if pending_player?(player.get_username)
                     timeout_pending_player
                 end
             end
