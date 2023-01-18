@@ -38,6 +38,11 @@ class Command
             end 
         end
 
+        def admin?
+            #TODO : Add dynamic admin liste
+            requester_username == 'madjidboudis'
+        end
+        
         def run
             respond("Cette fonctionalitée n'est pas encore implémentée ❌")
         end

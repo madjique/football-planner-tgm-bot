@@ -2,11 +2,6 @@ require_relative '../base'
 
 class Command
     class AdminBase < Command::Base
-        def admin?
-            #TODO : Add dynamic admin liste
-            requester_username == 'madjidboudis'
-        end
-        
         def execute
             if admin?
                 run
