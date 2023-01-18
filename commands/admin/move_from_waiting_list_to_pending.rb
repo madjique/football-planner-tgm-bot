@@ -8,7 +8,7 @@ class Command
             gamectl.timeout_pending_player
             next_pending_player = gamectl.get_pending_player
             return unless next_pending_player
-            gamectl.schedule_pending_timeout
+            gamectl.schedule_pending_timeout(next_pending_player)
 
             respond_multiple([
                 "#{prev_pending_player&.get_fullname} trop tard pour confirmer ça passe au prochain !❌\n",

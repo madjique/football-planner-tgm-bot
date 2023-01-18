@@ -35,7 +35,7 @@ class GameController
     end
 
     def add_player(player)
-        if game.players.size < game.max_players
+        if game.players.size < game.max_players and @pending_player.nil?
             game.players << player
         else
             game.waiting_list << player
@@ -78,7 +78,7 @@ class GameController
             game.players.delete(player)
             if game.waiting_list.size > 0
                 @pending_player = game.waiting_list.shift
-                schedule_pending_timeout
+                schedule_pending_timeout(player)
             end
         end
     end
@@ -101,10 +101,12 @@ class GameController
         @pending_player&.get_username == username
     end
 
-    def schedule_pending_timeout
+    def schedule_pending_timeout(player)
         Thread.new do
             scheduler.in '1h' do
-                timeout_pending_player
+                if @pending_player?(player.get_username)
+                    timeout_pending_player
+                end
             end
             scheduler.join  
         end
