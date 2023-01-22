@@ -15,7 +15,7 @@ logger = Logger.new("log.txt")
 token = ENV['FMP_BOT_TOKEN']
 
 # TODO : to be moved private 
-group_chat_id = -1001527306990 # Your chat group id
+group_chat_id = -717669317 #-1001527306990 # Your chat group id
 admin_list = ['madjidboudis','miisterRH'] # Your admin's username list
 
 # Default inits
@@ -27,8 +27,9 @@ Telegram::Bot::Client.run(token) do |bot|
 
     # Update Registrations State
     Thread.new do
+        gamectl.set_bot_ctx(group_chat_id, bot.api)
         gamectl.update_registrations
-        gamectl.launch_automatic_registration_scheduler(group_chat_id, bot.api)
+        gamectl.launch_automatic_registration_scheduler
     end
 
     # Main Loop

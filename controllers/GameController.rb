@@ -4,7 +4,7 @@ require 'date'
 require 'rufus-scheduler'
 
 class GameController
-    attr_reader :game, :registrations_open, :scheduler
+    attr_reader :game, :registrations_open, :scheduler, :group_chat_id, :api
 
     def initialize(registrations_state=false)
         @game = Game.new()
@@ -82,7 +82,7 @@ class GameController
             game.players.delete(player)
             if game.waiting_list.size > 0
                 game.pending_list << game.waiting_list.shift
-                schedule_pending_timeout(player)
+                schedule_pending_timeout(game.pending_list.last)
             end
         end
     end
@@ -127,7 +127,9 @@ class GameController
         Thread.new do
             scheduler.in '1h' do
                 if pending_player?(player.get_username)
-                    timeout_pending_player(player)
+                    next_pending_player = timeout_pending_player(player)
+                    send_message_in_group_chat("@#{next_pending_player&.get_username} a ton tour écrit /confirm pour te confirmer sur la liste 🌐\nTu as 1 heure pour confirmer ta présence sinon ça passe au prochain !")
+                    schedule_pending_timeout(next_pending_player)
                 end
             end
             scheduler.join  
@@ -149,19 +151,30 @@ class GameController
 
     end
 
-    def launch_automatic_registration_scheduler(group_chat_id, api)        
+    def launch_automatic_registration_scheduler        
         scheduler.cron '0 12 * * 1' do
             open_registrations
             startgame
-            api.send_message(chat_id: group_chat_id, text: "La liste est ouverte 🔓! faites /addme pour participer ⚽")
+            send_message_in_group_chat("La liste est ouverte 🔓! faites /addme pour participer ⚽")
         end
         
         scheduler.cron '0 18 * * 5' do
             close_registrations
-            api.send_message(chat_id: group_chat_id, text: "La liste est fermé 🔐! Bon Match ⚽")
+            send_message_in_group_chat("La liste est fermé 🔐! Bon Match ⚽")
         end
 
         scheduler.join    
+    end
+
+    def set_bot_ctx(_group_chat_id, _api)
+        @group_chat_id = _group_chat_id
+        @api = _api
+
+        self
+    end
+
+    def send_message_in_group_chat(message)
+        api.send_message(chat_id: group_chat_id, text: message)
     end
 
     # Getters
