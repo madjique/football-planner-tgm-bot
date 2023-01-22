@@ -1,4 +1,4 @@
-require 'telegram_bot'
+require 'telegram/bot'
 require 'logger'
 require 'rufus-scheduler'
 require 'require_all'
@@ -12,8 +12,7 @@ require_all 'controllers/'
 logger = Logger.new("log.txt")
 
 # Init TGM Bot
-token = ENV['FMP_BOT_TOKEN'] 
-bot = TelegramBot.new(token: token)
+token = ENV['FMP_BOT_TOKEN']
 
 # TODO : to be moved private 
 group_chat_id = -1001527306990 # Your chat group id
@@ -24,34 +23,32 @@ gamectl = GameController.instance
 playerctl = PlayerController.instance
 invoker = CommandInvoker.instance
 
-# Update Registrations State
-Thread.new do
-    gamectl.update_registrations
-    gamectl.launch_automatic_registration_scheduler
-end
+Telegram::Bot::Client.run(token) do |bot|
 
-# Main Loop
+    # Update Registrations State
+    Thread.new do
+        gamectl.update_registrations
+        gamectl.launch_automatic_registration_scheduler(group_chat_id, bot.api)
+    end
 
-bot.get_updates(fail_silently: true) do |message|
-    logger.info("recieving @#{message.from.username}: #{message.text}")
-    puts "@#{message.from.username}: #{message.text}"
-    command = message.get_command_for(bot)
-
-    message.reply do |reply|
-        replying = true
-
-        # Loading command's context 
-        invoker.load_context({
-            message: message,
-            reply: reply,
-            logger: logger,
-            gamectl: gamectl,
-            playerctl: playerctl,
-            group_chat_id: group_chat_id,
-            admin_list: admin_list
-        })
-
+    # Main Loop
+    bot.listen do |message|
         begin
+            command = message.text.split('@')[0]
+            reply = {}
+            replying = true
+
+            # Loading command's context 
+            invoker.load_context({
+                message: message,
+                reply: reply,
+                logger: logger,
+                gamectl: gamectl,
+                playerctl: playerctl,
+                group_chat_id: group_chat_id,
+                admin_list: admin_list
+            })
+
             case command
             when /^\/hello\s*$/i
                 invoker.hello
@@ -81,22 +78,26 @@ bot.get_updates(fail_silently: true) do |message|
                 invoker.show_all_players
             else 
                 replying = false
-            end  
+            end 
+
+            if replying
+                logger.info("recieving @#{message.from.username}: #{command}")
+                puts "@#{message.from.username}: #{command}"
+                logger.info("sending #{reply[:text]}")
+                puts "sending #{reply[:text]}"
+                    
+                bot.api.send_message(chat_id: message.chat.id, text: reply[:text])
+            end
     
         rescue => exception
-            reply.text = "Erreur Interne, contacte @madjidboudis ⚠️"
-
             logger.debug(gamectl.inspect)
+            logger.debug(playerctl.inspect)
             logger.debug(message.inspect)
             logger.error(exception)
-        end 
-
-        if replying
-            logger.info("sending #{reply.text.inspect}")
-            puts "sending #{reply.text.inspect}"
-
+            puts exception
+         
             begin
-                reply.send_with(bot)
+                bot.api.send_message(chat_id: message.chat.id, text: "Erreur interne, contactez @madjidboudis ⚠️")
             rescue => exception
                 logger.error(exception)
             end

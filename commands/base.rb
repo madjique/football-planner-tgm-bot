@@ -29,14 +29,14 @@ class Command
         end
 
         def respond(text)
-            reply.text = text
+            reply[:text] = text
         end
 
         def respond_multiple(text_arr)
-            reply.text = ''
+            reply[:text] = ''
 
             text_arr.each do |txt|
-                reply.text+= txt
+                reply[:text] += txt
             end 
         end
 

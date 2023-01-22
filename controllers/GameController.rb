@@ -149,14 +149,16 @@ class GameController
 
     end
 
-    def launch_automatic_registration_scheduler
+    def launch_automatic_registration_scheduler(group_chat_id, api)        
         scheduler.cron '0 12 * * 1' do
             open_registrations
             startgame
+            api.send_message(chat_id: group_chat_id, text: "La liste est ouverte 🔓! faites /addme pour participer ⚽")
         end
         
         scheduler.cron '0 18 * * 5' do
             close_registrations
+            api.send_message(chat_id: group_chat_id, text: "La liste est fermé 🔐! Bon Match ⚽")
         end
 
         scheduler.join    

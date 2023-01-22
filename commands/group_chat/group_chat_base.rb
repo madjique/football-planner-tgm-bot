@@ -11,7 +11,7 @@ class Command
             if match_group_requirements?
                 run
             else
-                respond("Vous ne satisfiez pas les conditions pour effectuer cette Action\n( Assurez-vous d'avoir un username et un Prénom )")
+                respond("Vous ne satisfiez pas les conditions pour effectuer cette Action\n( Assurez-vous d'avoir un username et un Prénom, et d'etre sur le bon groupe )")
             end
         end 
     end

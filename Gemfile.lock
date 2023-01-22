@@ -10,17 +10,31 @@ GEM
     concurrent-ruby (1.1.10)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
+    dry-inflector (1.0.0)
     et-orbi (1.2.7)
       tzinfo
     excon (0.96.0)
+    faraday (2.7.4)
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday-net_http (3.0.2)
     fugit (1.8.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     ice_nine (0.11.2)
+    multipart-post (2.2.3)
     raabro (1.4.0)
     require_all (3.0.0)
+    ruby2_keywords (0.0.5)
     rufus-scheduler (3.8.2)
       fugit (~> 1.1, >= 1.1.6)
+    telegram-bot-ruby (0.23.0)
+      dry-inflector
+      faraday (~> 2.0)
+      faraday-multipart (~> 1.0)
+      virtus (~> 2.0)
     telegram_bot (0.0.8)
       excon (>= 0.30.0)
       virtus (>= 1.0.0)
@@ -39,6 +53,7 @@ PLATFORMS
 DEPENDENCIES
   require_all (~> 3.0)
   rufus-scheduler
+  telegram-bot-ruby (~> 0.23.0)
   telegram_bot
 
 BUNDLED WITH
