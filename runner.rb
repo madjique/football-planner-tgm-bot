@@ -35,7 +35,7 @@ Telegram::Bot::Client.run(token) do |bot|
     # Main Loop
     bot.listen do |message|
         begin
-            command = message.text.split('@')[0]
+            command = message.text&.split('@')[0]
             reply = {}
             replying = true
 
