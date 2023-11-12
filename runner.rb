@@ -3,8 +3,12 @@ require 'logger'
 require 'rufus-scheduler'
 require 'require_all'
 require 'date'
+require 'dotenv'
 
 require_relative 'invoker'
+
+# Load .env file 
+Dotenv.load
 
 require_all 'controllers/'
 
@@ -13,10 +17,8 @@ logger = Logger.new("log.txt")
 
 # Init TGM Bot
 token = ENV['FMP_BOT_TOKEN']
-
-# TODO : to be moved private 
-group_chat_id = -1001527306990 # Your chat group id
-admin_list = ['madjidboudis','miisterRH'] # Your admin's username list
+group_chat_id =  ENV['GROUP_CHAT_ID']
+admin_list = ENV['ADMINS']
 
 # Default inits
 gamectl = GameController.instance
@@ -98,7 +100,7 @@ Telegram::Bot::Client.run(token) do |bot|
             puts exception
          
             begin
-                bot.api.send_message(chat_id: message.chat.id, text: "Erreur interne, contactez @madjidboudis ⚠️")
+                bot.api.send_message(chat_id: message.chat.id, text: "Erreur interne, contactez l'admin ⚠️")
             rescue => exception
                 logger.error(exception)
             end

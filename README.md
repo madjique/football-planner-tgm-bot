@@ -6,6 +6,8 @@
 # Getting Started
 ```bash
 export FMP_BOT_TOKEN=YOUR_BOT_TOKEN
+export GROUP_CHAT_ID=YOUR_GROUP_ID
+export ADMINS=['username1','username2']
 ```
 
 ### Install requirements
