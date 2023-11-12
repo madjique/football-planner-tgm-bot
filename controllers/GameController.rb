@@ -35,7 +35,7 @@ class GameController
     end
 
     def add_player(player)
-        if game.players.size < game.max_players and game.pending_list.empty?
+        if game.players.size + game.pending_list.size < game.max_players
             game.players << player
         else
             game.waiting_list << player
