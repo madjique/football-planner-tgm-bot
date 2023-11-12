@@ -4,10 +4,12 @@
 ```bundle (bundler)```
 
 # Getting Started
+
+Put this variables in your `.env` file
 ```bash
-export FMP_BOT_TOKEN=YOUR_BOT_TOKEN
-export GROUP_CHAT_ID=YOUR_GROUP_ID
-export ADMINS=['username1','username2']
+FMP_BOT_TOKEN=YOUR_BOT_TOKEN
+GROUP_CHAT_ID=YOUR_GROUP_ID
+ADMINS=['username1','username2']
 ```
 
 ### Install requirements
