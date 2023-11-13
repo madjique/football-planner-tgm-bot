@@ -17,7 +17,7 @@ logger = Logger.new("log.txt")
 
 # Init TGM Bot
 token = ENV['FMP_BOT_TOKEN']
-group_chat_id =  ENV['GROUP_CHAT_ID']
+group_chat_id =  ENV['GROUP_CHAT_ID'].to_i
 admin_list = ENV['ADMINS']
 
 # Default inits
