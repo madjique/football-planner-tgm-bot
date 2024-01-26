@@ -65,6 +65,8 @@ Telegram::Bot::Client.run(token) do |bot|
                 invoker.add_player_to_game
             when /^\/cancelme\s*$/i
                 invoker.cancel_player_from_game
+            when /^\/canceIme\s*$/i
+                invoker.cancel_player_from_game
             when /^\/confirm\s*$/i
                 invoker.confirm_player_to_main_list
             when /^\/next_pending\s*$/i
